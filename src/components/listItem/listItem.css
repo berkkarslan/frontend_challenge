@@ -1,0 +1,38 @@
+.item-container{
+  display: flex;
+  flex-direction: row;
+  margin:  20px;
+}
+.points-container{
+  background-color: #f3f3f3;
+  border:1px solid #b3b3b3;
+  border-radius: 5px;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+.point{
+  font-size: 28px;
+  font-weight: bold;
+}
+.title{
+  font-size: 20px;
+  font-weight: bold;
+}
+.item{
+  padding: 10px;
+}
+.btns{
+  display: flex;
+  flex:1;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: 20px;
+}
+.title-container{
+  display: flex;
+  flex-direction: column;
+  flex:1;
+}

@@ -1,4 +1,20 @@
-.submit-link{
+.submit-link {
   padding: 30px;
-  background-color: darkgray;
+  background-color: #f3f3f3;
+  border: 2px solid #b3b3b3;
+  border-radius: 5px;
+}
+.link-button {
+  color: #000;
+  font-size: 24px;
+  font-weight: bold;
+}
+.header-container {
+  padding: 10px;
+  border-bottom: 3px solid #f3f3f3;
+}
+.filter-container {
+  padding: 20px;
+}
+.list-container {
 }
