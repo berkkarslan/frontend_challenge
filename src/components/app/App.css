@@ -44,3 +44,11 @@
   align-items: center;
   border-bottom:1px solid #b2b2b2;
 }
+
+.content{
+  display: flex;
+  flex:1;
+  justify-content: center;
+  margin-top: 50px;
+  
+}
