@@ -2,15 +2,13 @@ import React from "react";
 import logo from "../../images/hepsiburada.jpg";
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
-import { Route, Router } from "react-router-dom";
-import { createBrowserHistory } from "history";
+import { HashRouter, Route } from "react-router-dom";
 import { List, Add } from "../index";
 import { ToastContainer } from "react-toastify";
 
-const history = createBrowserHistory();
 function App() {
   return (
-    <Router history={history}>
+    <HashRouter>
       <div>
         <ToastContainer />
         <div className="header">
@@ -22,7 +20,7 @@ function App() {
           <Route path="/add" component={Add} />
         </div>
       </div>
-    </Router>
+    </HashRouter>
   );
 }
 

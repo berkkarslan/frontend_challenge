@@ -27,6 +27,12 @@ class listItem extends React.Component {
     this.setState({point:this.props.item.point});
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.item.point !== prevState.point) {
+      this.setState({  point: this.props.item.point });
+    }
+ }
+
   render(){
     return (
       <div className="item-container">
