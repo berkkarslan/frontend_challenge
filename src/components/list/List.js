@@ -6,20 +6,20 @@ import { toast } from "react-toastify";
 import {ListItem} from '../index';
 
 class List extends React.Component {
-  constructor() {
-    super();
+  constructor(properties) {
+    super(properties);
     this.state = {
-      items: [1,2,3,4,5,6],
+      items: [],
     };
   }
 
-  componentDidMount() {
-    //this.getData();
+  componentDidMount() {   
+    this.getData();
   }
 
   getData() {
     try {
-      const items = localStorage.getItem("listItems");
+      const items = JSON.parse(localStorage.getItem("listItems"));
       this.setState({ items: items });
     } catch (error) {
       toast.error("Error", {
@@ -31,7 +31,7 @@ class List extends React.Component {
   renderList = () => {
     if (Array.isArray(this.state.items)) {
       return this.state.items.map(function (data,index) {
-        return <ListItem key={index} item={data}/>;
+        return <ListItem key={index} item={data} index={index}/>;
       });
     }
   };
