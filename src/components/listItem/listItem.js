@@ -44,7 +44,7 @@ class listItem extends React.Component {
     this.setState({ isMouseInside: false });
   }
 
-  click = () => {
+  click() {
     this.props.deleteFunc(this.props.item);
   };
 
