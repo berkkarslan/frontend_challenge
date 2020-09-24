@@ -4,7 +4,7 @@ import { Form, Modal, Button } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ListItem } from "../index";
-import ReactPaginate from 'react-paginate';
+import ReactPaginate from "react-paginate";
 
 class List extends React.Component {
   constructor(properties) {
@@ -26,22 +26,21 @@ class List extends React.Component {
 
   getData() {
     try {
-      const items = JSON.parse(localStorage.getItem("listItems")).reverse();      
+      const items = JSON.parse(localStorage.getItem("listItems")).reverse();
       this.setState({ items: items });
-    } catch (error) {
-      toast.error("Error", {
-        position: toast.POSITION.TOP_CENTER,
-      });
-    }
+    } catch (error) {}
   }
 
   renderList() {
     const component = this;
-    
+
     if (Array.isArray(this.state.items)) {
       const indexOfLastTodo = this.state.currentPage * this.state.PerPage;
       const indexOfFirstTodo = indexOfLastTodo - this.state.PerPage;
-      const currentTodos = this.state.items.slice(indexOfFirstTodo, indexOfLastTodo);
+      const currentTodos = this.state.items.slice(
+        indexOfFirstTodo,
+        indexOfLastTodo
+      );
       return currentTodos.map(function (data, index) {
         return (
           <ListItem
@@ -56,21 +55,22 @@ class List extends React.Component {
   }
 
   filterChanged(val) {
-    let sortedItems = JSON.parse(localStorage.getItem("listItems"));
-    if (val.target.value === "most") {
-      sortedItems = sortedItems.sort(function (a, b) {
-        if(b.point === a.point)
-        return b.id - a.id
-        return b.point - a.point;
-      });
-    } else {
-      sortedItems = sortedItems.sort(function (a, b) {
-        if(b.point === a.point)
-        return a.id - b.id
-        return a.point - b.point;
-      });
+    let sortedItems = localStorage.getItem("listItems");
+    if (sortedItems !== null) {
+      sortedItems = JSON.parse(localStorage.getItem("listItems"));
+      if (val.target.value === "most") {
+        sortedItems = sortedItems.sort(function (a, b) {
+          if (b.point === a.point) return b.id - a.id;
+          return b.point - a.point;
+        });
+      } else {
+        sortedItems = sortedItems.sort(function (a, b) {
+          if (b.point === a.point) return a.id - b.id;
+          return a.point - b.point;
+        });
+      }
+      this.setState({ items: sortedItems });
     }
-    this.setState({ items: sortedItems });
   }
 
   handleClose() {
@@ -88,7 +88,7 @@ class List extends React.Component {
   confirmDelete() {
     let Items = JSON.parse(localStorage.getItem("listItems")).reverse();
     let index = Items.findIndex((x) => x.id === this.state.removeId);
-    Items.splice(index,1);
+    Items.splice(index, 1);
     localStorage.setItem("listItems", JSON.stringify(Items));
     this.setState({ items: Items, isVisible: false });
     toast.success(this.state.removeText.toUpperCase() + " removed.", {
@@ -96,8 +96,8 @@ class List extends React.Component {
     });
   }
 
-  handlePageClick(e){
-    this.setState({ currentPage: e.selected+1 })
+  handlePageClick(e) {
+    this.setState({ currentPage: e.selected + 1 });
   }
 
   render() {
@@ -125,15 +125,19 @@ class List extends React.Component {
         </div>
         <div className="list-container">{this.renderList()}</div>
         <ReactPaginate
-              previousLabel={'<'}
-              nextLabel={'>'}
-              pageCount={this.state.items ? Math.ceil(this.state.items.length/this.state.PerPage): 1}
-              marginPagesDisplayed={5}
-              pageRangeDisplayed={5}
-              onPageChange={(e) =>this.handlePageClick(e)}
-              containerClassName={'pagination'}
-              subContainerClassName={'pages pagination'}
-              activeClassName={'active'}
+          previousLabel={"<"}
+          nextLabel={">"}
+          pageCount={
+            this.state.items
+              ? Math.ceil(this.state.items.length / this.state.PerPage)
+              : 1
+          }
+          marginPagesDisplayed={5}
+          pageRangeDisplayed={5}
+          onPageChange={(e) => this.handlePageClick(e)}
+          containerClassName={"pagination"}
+          subContainerClassName={"pages pagination"}
+          activeClassName={"active"}
         />
         <Modal show={this.state.isVisible} onHide={() => this.handleClose()}>
           <Modal.Header closeButton>

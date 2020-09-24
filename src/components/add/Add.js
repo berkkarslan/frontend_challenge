@@ -15,31 +15,37 @@ class Add extends React.Component {
   }
 
   handleSubmit() {
-    if (this.state.linkName !== '' && this.state.linkUrl !== '') {
+    if (this.state.linkName !== "" && this.state.linkUrl !== "") {
       let items = localStorage.getItem("listItems");
-      if(items !== null)
-      {
-        items=JSON.parse(localStorage.getItem("listItems"));
+      if (items !== null) {
+        items = JSON.parse(localStorage.getItem("listItems"));
       }
-      if(Array.isArray(items)){
-        items.push({ id:Date.now(),title: this.state.linkName, link: this.state.linkUrl, point: 0});
-      }
-      else{
-        items=[];
-        items.push({ id:Date.now(),title: this.state.linkName, link: this.state.linkUrl, point: 0});
+      if (Array.isArray(items)) {
+        items.push({
+          id: Date.now(),
+          title: this.state.linkName,
+          link: this.state.linkUrl,
+          point: 0,
+        });
+      } else {
+        items = [];
+        items.push({
+          id: Date.now(),
+          title: this.state.linkName,
+          link: this.state.linkUrl,
+          point: 0,
+        });
       }
       localStorage.setItem("listItems", JSON.stringify(items));
       toast.success(this.state.linkName.toUpperCase() + " added.", {
         position: toast.POSITION.TOP_CENTER,
       });
-      this.setState({linkName:'',linkUrl:''});
-    }
-    else{
+      this.setState({ linkName: "", linkUrl: "" });
+    } else {
       toast.error("Error", {
         position: toast.POSITION.TOP_CENTER,
       });
     }
-    
   }
 
   render() {
