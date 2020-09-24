@@ -1,8 +1,14 @@
+.main-container{
+  width: 40%;
+}
 .item-container{
   display: flex;
   flex-direction: row;
-  margin:  20px;
-  width: '50%';
+  padding:  10px;
+  margin:10px;
+}
+.item-container:hover{
+  background-color: #f3f3f3;
 }
 .points-container{
   background-color: #f3f3f3;
@@ -43,4 +49,7 @@
 }
 .btn-down{
   cursor: pointer;
+}
+.delete-button{
+  
 }

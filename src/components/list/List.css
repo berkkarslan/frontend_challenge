@@ -25,3 +25,7 @@
 .modal-content{
   text-align: center;
 }
+.delete-text{
+  font-weight: bold;
+  font-size: 24px;
+}
