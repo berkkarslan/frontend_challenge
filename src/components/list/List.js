@@ -4,6 +4,7 @@ import { Form, Modal, Button } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ListItem } from "../index";
+import ReactPaginate from 'react-paginate';
 
 class List extends React.Component {
   constructor(properties) {
@@ -13,6 +14,8 @@ class List extends React.Component {
       isVisible: false,
       removeText: "",
       removeId: 0,
+      currentPage: 1,
+      PerPage: 5,
     };
     this.deleteShowItem = this.deleteShowItem.bind(this);
   }
@@ -23,7 +26,7 @@ class List extends React.Component {
 
   getData() {
     try {
-      const items = JSON.parse(localStorage.getItem("listItems"));
+      const items = JSON.parse(localStorage.getItem("listItems")).reverse();      
       this.setState({ items: items });
     } catch (error) {
       toast.error("Error", {
@@ -34,8 +37,12 @@ class List extends React.Component {
 
   renderList() {
     const component = this;
+    
     if (Array.isArray(this.state.items)) {
-      return this.state.items.map(function (data, index) {
+      const indexOfLastTodo = this.state.currentPage * this.state.PerPage;
+      const indexOfFirstTodo = indexOfLastTodo - this.state.PerPage;
+      const currentTodos = this.state.items.slice(indexOfFirstTodo, indexOfLastTodo);
+      return currentTodos.map(function (data, index) {
         return (
           <ListItem
             deleteFunc={component.deleteShowItem}
@@ -52,10 +59,14 @@ class List extends React.Component {
     let sortedItems = JSON.parse(localStorage.getItem("listItems"));
     if (val.target.value === "most") {
       sortedItems = sortedItems.sort(function (a, b) {
+        if(b.point === a.point)
+        return b.id - a.id
         return b.point - a.point;
       });
     } else {
       sortedItems = sortedItems.sort(function (a, b) {
+        if(b.point === a.point)
+        return a.id - b.id
         return a.point - b.point;
       });
     }
@@ -75,11 +86,18 @@ class List extends React.Component {
   }
 
   confirmDelete() {
-    let Items = JSON.parse(localStorage.getItem("listItems"));
+    let Items = JSON.parse(localStorage.getItem("listItems")).reverse();
     let index = Items.findIndex((x) => x.id === this.state.removeId);
     Items.splice(index,1);
     localStorage.setItem("listItems", JSON.stringify(Items));
     this.setState({ items: Items, isVisible: false });
+    toast.success(this.state.removeText.toUpperCase() + " removed.", {
+      position: toast.POSITION.TOP_CENTER,
+    });
+  }
+
+  handlePageClick(e){
+    this.setState({ currentPage: e.selected+1 })
   }
 
   render() {
@@ -106,6 +124,17 @@ class List extends React.Component {
           </Form.Group>
         </div>
         <div className="list-container">{this.renderList()}</div>
+        <ReactPaginate
+              previousLabel={'<'}
+              nextLabel={'>'}
+              pageCount={this.state.items ? Math.ceil(this.state.items.length/this.state.PerPage): 1}
+              marginPagesDisplayed={5}
+              pageRangeDisplayed={5}
+              onPageChange={(e) =>this.handlePageClick(e)}
+              containerClassName={'pagination'}
+              subContainerClassName={'pages pagination'}
+              activeClassName={'active'}
+        />
         <Modal show={this.state.isVisible} onHide={() => this.handleClose()}>
           <Modal.Header closeButton>
             <Modal.Title>Remove Link </Modal.Title>
