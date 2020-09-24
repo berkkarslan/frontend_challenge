@@ -19,3 +19,9 @@
 }
 .list-container {
 }
+.modal-footer{
+  justify-content: center !important;
+}
+.modal-content{
+  text-align: center;
+}

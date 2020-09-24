@@ -12,14 +12,14 @@ class listItem extends React.Component {
    upvote(){
     let items=JSON.parse(localStorage.getItem('listItems')); 
     items[this.props.index].point++;
-    this.setState({point:this.state.point+1});
+    this.setState({point:items[this.props.index].point});
     localStorage.setItem('listItems',JSON.stringify(items));
   }
 
    downVote(){
     let items=JSON.parse(localStorage.getItem('listItems')); 
     items[this.props.index].point--;
-    this.setState({point:this.state.point-1});
+    this.setState({point:items[this.props.index].point});
     localStorage.setItem('listItems',JSON.stringify(items));
   }
 
@@ -28,7 +28,7 @@ class listItem extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.props.item.point !== prevState.point) {
+    if (this.props.item.point !== prevState.point && prevState.point === 0 && (prevState.point ===1 && this.props.item.point ===0) && (prevState.point ===0 && this.props.item.point ===-1)) {
       this.setState({  point: this.props.item.point });
     }
  }
@@ -46,8 +46,8 @@ class listItem extends React.Component {
             <div className="link">{this.props.item.link}</div>
           </div>
           <div className="btns">
-            <div onClick={() =>this.upvote()}>Up Vote </div>
-            <div onClick={() =>this.downVote()}>Down Vote</div>
+            <div className="btn-up" onClick={() =>this.upvote()}>Up Vote </div>
+            <div className="btn-down" onClick={() =>this.downVote()}>Down Vote</div>
           </div>
         </div>
       </div>

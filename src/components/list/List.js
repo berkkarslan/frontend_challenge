@@ -1,6 +1,6 @@
 import React from "react";
 import "./List.css";
-import { Form } from "react-bootstrap";
+import { Form,Modal,Button } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ListItem } from "../index";
@@ -10,6 +10,8 @@ class List extends React.Component {
     super(properties);
     this.state = {
       items: [],
+      isVisible:false,
+      removeText:''
     };
   }
 
@@ -50,6 +52,13 @@ class List extends React.Component {
     this.setState({ items: sortedItems });
   }
 
+  handleClose(){
+    this.setState({isVisible:false});
+  }
+  deleteItem(){
+
+  }
+
   render() {
     return (
       <div>
@@ -74,6 +83,22 @@ class List extends React.Component {
           </Form.Group>
         </div>
         <div className="list-container">{this.renderList()}</div>
+        <Modal show={this.state.isVisible} onHide={()=>this.handleClose()}>
+        <Modal.Header closeButton>
+          <Modal.Title>Remove Link </Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="modal-content">Do you want to remove:
+    <p>{this.state.removeText}</p>
+        </Modal.Body>
+        <Modal.Footer className="modal-footer">
+          <Button variant="secondary" onClick={()=>this.deleteItem()}>
+            OK
+          </Button>
+          <Button variant="secondary" onClick={()=>this.handleClose()}>
+            CANCEL
+          </Button>
+        </Modal.Footer>
+      </Modal>
       </div>
     );
   }
